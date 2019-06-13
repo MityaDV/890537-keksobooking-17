@@ -38,7 +38,7 @@ var generateAdvertObject = function () { // функция генерации о
 };
 
 for (var i = 0; i < ADVERTS_COUNT; i++) { // Добавляем объекты
-  var numbersImgAvatar = 0 + [i + 1]; // добавляет номер картинки аватарки
+  var numbersImgAvatar = '0' + (i + 1); // добавляет номер картинки аватарки
   similarAdverts[i] = generateAdvertObject();
 }
 
