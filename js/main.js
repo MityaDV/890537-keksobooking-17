@@ -20,12 +20,10 @@ mapActive.classList.remove('map--faded'); // показываем блок ка�
 
 var similarMapPins = document.querySelector('.map__pins'); // находим блок для вставки меток
 
-var similarAdverts = []; // массив похожих объявлений
-
-var generateAdvertObject = function () { // функция генерации объектов
+var generateAdvertObject = function (index) { // функция генерации объектов
   return {
     'author': {
-      'avatar': 'img/avatars/user' + numbersImgAvatar + '.png'
+      'avatar': 'img/avatars/user0' + index + '.png'
     },
     'offer': {
       'type': randomValueFromArray(HOUSING_TYPES)
@@ -37,9 +35,9 @@ var generateAdvertObject = function () { // функция генерации о
   };
 };
 
+var similarAdverts = []; // массив похожих объявлений
 for (var i = 0; i < ADVERTS_COUNT; i++) { // Добавляем объекты
-  var numbersImgAvatar = '0' + (i + 1); // добавляет номер картинки аватарки
-  similarAdverts[i] = generateAdvertObject();
+  similarAdverts[i] = generateAdvertObject(i + 1);
 }
 
 var similarPinTemplate = document.querySelector('#pin') // находим шаблон меток
