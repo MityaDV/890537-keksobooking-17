@@ -131,4 +131,3 @@ var onTimeChange = function (evt) { // создаю ф-ю обработчика
 };
 
 adFormFieldsetTime.addEventListener('change', onTimeChange); // навешиваю обработчик с переданной ф-й на fieldset c двумя select времени заезда и выезда
-
