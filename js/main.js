@@ -1,7 +1,8 @@
 'use strict';
 
 var ADVERTS_COUNT = 8;
-var HOUSING_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var HOUSING_TYPES = ['bungalo', 'flat', 'house', 'palace'];
+var MIN_PRICE_HOUSING = [0, 1000, 5000, 10000];
 var COORDINATE_MIN_X = 60;
 var COORDINATE_MAX_X = 1140;
 var COORDINATE_MIN_Y = 130;
@@ -42,8 +43,8 @@ for (var i = 0; i < ADVERTS_COUNT; i++) { // Добавляем объекты
 }
 
 var similarPinTemplate = document.querySelector('#pin') // находим шаблон меток
-.content
-.querySelector('.map__pin');
+  .content
+  .querySelector('.map__pin');
 
 var renderPin = function (advert) { // ф-я создания меток
   var pinElement = similarPinTemplate.cloneNode(true); // клонируем метки
@@ -107,3 +108,27 @@ addressInput.setAttribute('placeholder', positionPin(mapPinButton));
 mapPinButton.addEventListener('mouseup', function () { // обработчик для определения и записи координат при перемещении метки
   addressInput.placeholder = positionPin(mapPinButton);
 });
+
+// module4-task2
+
+var priceInput = adForm.querySelector('#price'); // нахожу поле с ценой
+var adFormSelectType = adForm.querySelector('#type'); // нахожу select с типом жилья
+var adFormFieldsetTime = adForm.querySelector('.ad-form__element--time'); // нахожу fieldset time
+var adFormSelectTimeIn = adForm.querySelector('#timein'); // нахожу select timein
+var adFormSelectTimeOut = adForm.querySelector('#timeout'); // нахожу select timeout
+
+var onTypeChange = function () { // создаю ф-ю обработчика события для изменения типа и цены жилья
+  var index = adFormSelectType.selectedIndex; // записал в пер-ю номер выбранного элемента option
+  priceInput.placeholder = MIN_PRICE_HOUSING[index]; // присваиваю значение placeholder
+  priceInput.min = MIN_PRICE_HOUSING[index]; // присваиваю значение min для поля с ценой
+};
+
+adFormSelectType.addEventListener('change', onTypeChange); // навешиваю обработчик с переданной ф-й на select с типом жилья
+
+var onTimeChange = function (evt) { // создаю ф-ю обработчика события для изменения заезда и выезда
+  adFormSelectTimeIn.value = evt.target.value;
+  adFormSelectTimeOut.value = evt.target.value;
+};
+
+adFormFieldsetTime.addEventListener('change', onTimeChange); // навешиваю обработчик с переданной ф-й на fieldset c двумя select времени заезда и выезда
+
