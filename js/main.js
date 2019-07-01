@@ -74,14 +74,14 @@ var adFormFieldset = adForm.querySelectorAll('fieldset'); // нахожу fields
 var mapPinButton = similarMapPin.querySelector('.map__pin--main'); // нахожу метку кнопку
 var addressInput = adForm.querySelector('[name="address"]');
 
-var positionPin = function (elem) { // функция получения координат
+var getPosition = function (elem) { // функция получения координат
   return {
     x: elem.offsetLeft, // левый отступ эл-та от родителя
     y: elem.offsetTop // верхний отступ эл-та от родителя
   };
 };
 
-var posPin = positionPin(mapPinButton);
+var posPin = getPosition(mapPinButton);
 
 addressInput.placeholder = posPin.x + ',' + posPin.y;
 
@@ -127,8 +127,8 @@ adFormFieldsetTime.addEventListener('change', onTimeChange); // навешива
 
 var limitsCoord = { // получаю координаты ограничения блока с картой
   top: similarMapPin.offsetTop,
-  right: similarMapPin.offsetWidth + similarMapPin.offsetLeft - mapPinButton.offsetWidth,
-  bottom: similarMapPin.offsetHeight + similarMapPin.offsetTop - mapPinButton.offsetHeight,
+  right: (similarMapPin.offsetLeft + similarMapPin.offsetWidth) - mapPinButton.offsetWidth,
+  bottom: (similarMapPin.offsetTop + similarMapPin.offsetHeight) - mapPinButton.offsetHeight,
   left: similarMapPin.offsetLeft
 };
 
@@ -143,25 +143,37 @@ mapPinButton.addEventListener('mousedown', function (evt) {
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
 
-    var shift = { // записал в объект вычисление значения смещения
+    var shift = { // записал в объект вычисление значения смещения (на сколько был сдвиг)
       x: startCoords.x - moveEvt.clientX,
       y: startCoords.y - moveEvt.clientY
     };
 
-    startCoords = {
+    startCoords = { // записал новые текущие координаты курсора
       x: moveEvt.clientX,
       y: moveEvt.clientY
     };
 
-    posPin = positionPin(mapPinButton); // отступы элемента offsetTop и Left
+    posPin = getPosition(mapPinButton); // отступы элемента offsetTop и Left
 
-    mapPinButton.style.top = (posPin.y - shift.y) + 'px';
+    if (posPin.x <= limitsCoord.left) {
+      posPin.x = limitsCoord.left;
+    } else if (posPin.x >= limitsCoord.right) {
+      posPin.x = limitsCoord.right;
+    }
+
+    if (posPin.y <= limitsCoord.top) {
+      posPin.y = limitsCoord.top;
+    } else if (posPin.y >= limitsCoord.bottom) {
+      posPin.y = limitsCoord.bottom;
+    }
+
     mapPinButton.style.left = (posPin.x - shift.x) + 'px';
+    mapPinButton.style.top = (posPin.y - shift.y) + 'px';
 
-    window.coordPinY = (posPin.y + mapPinButton.offsetHeight + MARK_POINTER_HEIGHT); // координата указателя по y
-    window.coordPinX = (posPin.x + (mapPinButton.offsetWidth / 2)); // координата указателя по x
+    var coordPinX = (posPin.x + (mapPinButton.offsetWidth / 2)); // координата острого конца указателя по x
+    var coordPinY = (posPin.y + mapPinButton.offsetHeight + MARK_POINTER_HEIGHT); // координата острого конца указателя по y
 
-    addressInput.setAttribute('placeholder', window.coordPinX + ',' + window.coordPinY); // записал координаты с поправкой на указатель в поле
+    addressInput.setAttribute('placeholder', coordPinX + ',' + coordPinY); // записал координаты с поправкой на указатель в поле
 
     removeAttibuts(mapFilterSelect); // разблокировали поля
     removeAttibuts(adFormFieldset); //  разблокировали поля
@@ -173,8 +185,6 @@ mapPinButton.addEventListener('mousedown', function (evt) {
 
   var onMouseUp = function (upEvt) {
     upEvt.preventDefault();
-
-    addressInput.setAttribute('placeholder', window.coordPinX + ',' + window.coordPinY);
 
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
