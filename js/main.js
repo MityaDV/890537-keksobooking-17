@@ -155,19 +155,19 @@ mapPinButton.addEventListener('mousedown', function (evt) {
 
     posPin = getPosition(mapPinButton); // отступы элемента offsetTop и Left
 
-    if (posPin.x <= limitsCoord.left) {
+    if (posPin.x <= limitsCoord.left) { // проверяю находится ли метка в границах родительского блока по x
       posPin.x = limitsCoord.left;
     } else if (posPin.x >= limitsCoord.right) {
       posPin.x = limitsCoord.right;
     }
 
-    if (posPin.y <= limitsCoord.top) {
+    if (posPin.y <= limitsCoord.top) { // проверяю находится ли метка в границах родительского блока по y
       posPin.y = limitsCoord.top;
     } else if (posPin.y >= limitsCoord.bottom) {
       posPin.y = limitsCoord.bottom;
     }
 
-    mapPinButton.style.left = (posPin.x - shift.x) + 'px';
+    mapPinButton.style.left = (posPin.x - shift.x) + 'px'; // записываю новые координаты метки
     mapPinButton.style.top = (posPin.y - shift.y) + 'px';
 
     var coordPinX = (posPin.x + (mapPinButton.offsetWidth / 2)); // координата острого конца указателя по x
