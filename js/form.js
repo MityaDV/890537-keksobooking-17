@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var MIN_PRICE_HOUSING = [0, 1000, 5000, 10000];
 
   var mapFilter = document.querySelector('.map__filters'); // нахожу блок формы фильтров
   window.mapFilterSelect = mapFilter.querySelectorAll('.map__filter'); // нахожу select в форме фильтров
@@ -30,10 +29,19 @@
     }
   };
 
+  var minPriceHousing = {
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
+  };
+
   var onTypeChange = function () { // создаю ф-ю обработчика события для изменения типа и цены жилья
-    var index = adFormSelectType.selectedIndex; // записал в пер-ю номер выбранного элемента option
-    priceInput.placeholder = MIN_PRICE_HOUSING[index]; // присваиваю значение placeholder
-    priceInput.min = MIN_PRICE_HOUSING[index]; // присваиваю значение min для поля с ценой
+    var value = adFormSelectType.value; // записал в пер-ю номер выбранного элемента option
+    var newPrice = minPriceHousing[value];
+
+    priceInput.placeholder = newPrice; // присваиваю значение placeholder
+    priceInput.min = newPrice; // присваиваю значение min для поля с ценой
   };
 
   adFormSelectType.addEventListener('change', onTypeChange); // навешиваю обработчик с переданной ф-й на select с типом жилья

@@ -10,15 +10,22 @@
   var adForm = document.querySelector('.ad-form'); // нахожу блок формы объявления
   var addressInput = adForm.querySelector('[name="address"]');
 
-  var posPin = window.data.getPosition(mapPinButton); // получаю координаты метки
-  addressInput.placeholder = posPin.x + ',' + posPin.y; //  записываю эти координаты в placeholder
-
   var limitsCoord = { // получаю координаты ограничения блока с картой
     top: similarMapPin.offsetTop,
     right: (similarMapPin.offsetLeft + similarMapPin.offsetWidth) - mapPinButton.offsetWidth,
     bottom: (similarMapPin.offsetTop + similarMapPin.offsetHeight) - mapPinButton.offsetHeight,
     left: similarMapPin.offsetLeft
   };
+
+  var getPosition = function (elem) { // функция получения координат отступов
+    return {
+      x: elem.offsetLeft, // левый отступ эл-та от родителя
+      y: elem.offsetTop // верхний отступ эл-та от родителя
+    };
+  };
+
+  var posPin = getPosition(mapPinButton); // получаю координаты метки
+  addressInput.placeholder = posPin.x + ',' + posPin.y; //  записываю эти координаты в placeholder
 
   // код перемещения метки по карте
   mapPinButton.addEventListener('mousedown', function (evt) {
@@ -42,7 +49,7 @@
         y: moveEvt.clientY
       };
 
-      posPin = window.data.getPosition(mapPinButton); // отступы элемента offsetTop и Left
+      posPin = getPosition(mapPinButton); // отступы элемента offsetTop и Left
 
       if (posPin.x <= limitsCoord.left) { // проверяю находится ли метка в границах родительского блока по x
         posPin.x = limitsCoord.left;

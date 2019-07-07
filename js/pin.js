@@ -20,11 +20,11 @@
         'avatar': 'img/avatars/user0' + index + '.png'
       },
       'offer': {
-        'type': window.data.randomValueFromArray(HOUSING_TYPES)
+        'type': window.util.getRandomValueFromArray(HOUSING_TYPES)
       },
       'location': {
-        'x': window.data.calculatesСoordinateY(COORDINATE_MIN_X, COORDINATE_MAX_X),
-        'y': window.data.calculatesСoordinateY(COORDINATE_MIN_Y, COORDINATE_MAX_Y)
+        'x': window.util.getRandomNumber(COORDINATE_MIN_X, COORDINATE_MAX_X),
+        'y': window.util.getRandomNumber(COORDINATE_MIN_Y, COORDINATE_MAX_Y)
       }
     };
   };
