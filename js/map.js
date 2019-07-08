@@ -17,14 +17,14 @@
     left: similarMapPin.offsetLeft
   };
 
-  var getPosition = function (elem) { // функция получения координат отступов
+  var getPositionOffSetElem = function (elem) { // функция получения координат отступов
     return {
       x: elem.offsetLeft, // левый отступ эл-та от родителя
       y: elem.offsetTop // верхний отступ эл-та от родителя
     };
   };
 
-  var posPin = getPosition(mapPinButton); // получаю координаты метки
+  var posPin = getPositionOffSetElem(mapPinButton); // получаю координаты метки
   addressInput.placeholder = posPin.x + ',' + posPin.y; //  записываю эти координаты в placeholder
 
   // код перемещения метки по карте
@@ -49,7 +49,7 @@
         y: moveEvt.clientY
       };
 
-      posPin = getPosition(mapPinButton); // отступы элемента offsetTop и Left
+      posPin = getPositionOffSetElem(mapPinButton); // отступы элемента offsetTop и Left
 
       if (posPin.x <= limitsCoord.left) { // проверяю находится ли метка в границах родительского блока по x
         posPin.x = limitsCoord.left;
@@ -81,9 +81,10 @@
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
 
-      similarMapPin.appendChild(window.fragment); // вставляем сформированный фрагмент в разметку
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
+
+      window.backend.load(window.onSuccessLoad, window.onErrorLoad);
     };
 
     document.addEventListener('mousemove', onMouseMove); // добавил обработчик перемещению окна
