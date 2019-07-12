@@ -22,23 +22,25 @@
     return pinElement;
   };
 
-  window.onSuccessLoad = function (advertsData) { // ф-я обработки при успешной загрузки
-    var fragment = document.createDocumentFragment(); // создаём елемент fragment
+  window.pin = {
+    onSuccessLoad: function (advertsData) { // ф-я обработки при успешной загрузки
+      var fragment = document.createDocumentFragment(); // создаём елемент fragment
 
-    for (var i = 0; i < advertsData.length; i++) { // на каждой иттерации создаём новую метку и записываем новые данные из массива
-      fragment.appendChild(renderPin(advertsData[i]));
+      for (var i = 0; i < advertsData.length; i++) { // на каждой иттерации создаём новую метку и записываем новые данные из массива
+        fragment.appendChild(renderPin(advertsData[i]));
+      }
+
+      similarMapPin.appendChild(fragment); // вставляем сформированный фрагмент в разметку
+    },
+
+    onErrorLoad: function (errorMessage) { // ф-я обработки ошибок при загрузке
+      var fragment = document.createDocumentFragment();
+
+      similarErrorTemplate.querySelector('.error__message').textContent = errorMessage;
+
+      fragment.appendChild(similarErrorTemplate);
+      document.querySelector('main').appendChild(fragment);
     }
-
-    similarMapPin.appendChild(fragment); // вставляем сформированный фрагмент в разметку
-  };
-
-  window.onErrorLoad = function (errorMessage) { // ф-я обработки ошибок при загрузке
-    var fragment = document.createDocumentFragment();
-
-    similarErrorTemplate.querySelector('.error__message').textContent = errorMessage;
-
-    fragment.appendChild(similarErrorTemplate);
-    document.querySelector('main').appendChild(fragment);
   };
 
 })();

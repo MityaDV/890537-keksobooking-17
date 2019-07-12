@@ -2,7 +2,7 @@
 
 (function () {
 
-  window.util = {
+  window.utils = {
     getRandomValueFromArray: function (array) { // Функция генерации случайного значения из переданного массива
       return array[Math.floor(Math.random() * array.length)];
     },

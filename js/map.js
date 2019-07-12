@@ -84,7 +84,7 @@
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
-      window.backend.load(window.onSuccessLoad, window.onErrorLoad);
+      window.backend.load(window.pin.onSuccessLoad, window.pin.onErrorLoad);
     };
 
     document.addEventListener('mousemove', onMouseMove); // добавил обработчик перемещению окна
