@@ -87,7 +87,7 @@
       window.backend.load(window.pin.onSuccessLoad, window.pin.onErrorLoad);
     };
 
-    document.addEventListener('mousemove', onMouseMove); // добавил обработчик перемещению окна
+    document.addEventListener('mousemove', onMouseMove); // добавил обработчик перемещению метки
     document.addEventListener('mouseup', onMouseUp); // добавил обработчик отпускания кнопки после перемещения
   });
 
