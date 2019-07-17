@@ -11,9 +11,9 @@
     .querySelector('.error');
 
   window.pin = {
-    onSuccessLoad: function (advertsData) { // ф-я обработки при успешной загрузки
-      window.filter.getRenderPin(advertsData);
-      window.filter.getChangeHousingType(advertsData);
+    onSuccessLoad: function (advertData) { // ф-я обработки при успешной загрузки
+      window.filter.getRenderPin(advertData);
+      window.filter.getChangeHousingType(advertData);
     },
 
     onErrorLoad: function (errorMessage) { // ф-я обработки ошибок при загрузке
@@ -25,13 +25,14 @@
       document.querySelector('main').appendChild(fragment);
     },
 
-    renderPin: function (advertsData) { // ф-я создания меток
-      var pinElement = similarPinTemplate.cloneNode(true); // клонируем метки c шаблона
+    renderPin: function (advertData) { // ф-я создания меток
+      // копирую разметку шаблона метки со всем содержимым
+      var pinElement = similarPinTemplate.cloneNode(true);
 
       // записываем новые значения из массива
-      pinElement.style = 'left: ' + advertsData.location.x + 'px;' + ' ' + 'top: ' + advertsData.location.y + 'px;';
-      pinElement.querySelector('img').src = advertsData.author.avatar;
-      pinElement.querySelector('img').alt = advertsData.offer.type;
+      pinElement.style = 'left: ' + advertData.location.x + 'px;' + ' ' + 'top: ' + advertData.location.y + 'px;';
+      pinElement.querySelector('img').src = advertData.author.avatar;
+      pinElement.querySelector('img').alt = advertData.offer.type;
 
       return pinElement;
     }

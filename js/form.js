@@ -32,6 +32,7 @@
   addAttributs(window.form.adFormFields); // блокирую fieldset формы объявлений
   window.form.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокируем fieldset в форме фильтров
 
+  // Код фильтрации в форме объявления
   var minPriceHousing = {
     bungalo: 0,
     flat: 1000,
