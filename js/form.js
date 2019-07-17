@@ -3,10 +3,7 @@
 (function () {
 
   var mapFilter = document.querySelector('.map__filters'); // нахожу блок формы фильтров
-  window.mapFilterSelect = mapFilter.querySelectorAll('.map__filter'); // нахожу select в форме фильтров
-  window.mapFilterFieldsetElem = mapFilter.querySelector('.map__features'); // нахожу fieldset в форме фильтров
   var adForm = document.querySelector('.ad-form'); // нахожу блок формы объявления
-  window.adFormFieldset = adForm.querySelectorAll('fieldset'); // нахожу fieldset в форме объявлений
   var priceInput = adForm.querySelector('#price'); // нахожу поле с ценой
   var adFormSelectType = adForm.querySelector('#type'); // нахожу select с типом жилья
   var adFormFieldsetTime = adForm.querySelector('.ad-form__element--time'); // нахожу fieldset time
@@ -19,15 +16,21 @@
     }
   };
 
-  window.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокируем fieldset в форме фильтров
-  addAttributs(window.mapFilterSelect); // блокирую select формы фильтров
-  addAttributs(window.adFormFieldset); // блокирую fieldset формы объявлений
+  window.form = {
+    mapFiltersSelection: mapFilter.querySelectorAll('.map__filter'), // нахожу select в форме фильтров
+    mapFilterFieldsetElem: mapFilter.querySelector('.map__features'), // нахожу fieldset в форме фильтров
+    adFormFields: adForm.querySelectorAll('fieldset'), // нахожу fieldset в форме объявлений
 
-  window.removeAttibutsElem = function (array) { // функция удаления атрибутов
-    for (var b = 0; b < array.length; b++) {
-      array[b].removeAttribute('disabled');
+    removeAttributsElem: function (array) { // функция удаления атрибутов
+      for (var b = 0; b < array.length; b++) {
+        array[b].removeAttribute('disabled');
+      }
     }
   };
+
+  addAttributs(window.form.mapFiltersSelection); // блокирую select формы фильтров
+  addAttributs(window.form.adFormFields); // блокирую fieldset формы объявлений
+  window.form.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокируем fieldset в форме фильтров
 
   var minPriceHousing = {
     bungalo: 0,

@@ -76,9 +76,9 @@
 
       addressInput.setAttribute('placeholder', coordPinX + ',' + coordPinY); // записал координаты с поправкой на указатель в поле
 
-      window.removeAttibutsElem(window.mapFilterSelect); // разблокировали поля
-      window.removeAttibutsElem(window.adFormFieldset); //  разблокировали поля
-      window.mapFilterFieldsetElem.removeAttribute('disabled'); //  разблокировали поля
+      window.form.removeAttributsElem(window.form.mapFiltersSelection); // разблокировали все поля
+      window.form.removeAttributsElem(window.form.adFormFields); //  разблокировали все поля
+      window.form.mapFilterFieldsetElem.removeAttribute('disabled'); //  разблокировали поле
       mapActive.classList.remove('map--faded'); // показываем блок карты
       adForm.classList.remove('ad-form--disabled'); // показываем поля формы объявлений
     };
