@@ -27,9 +27,13 @@
   var posPin = getPositionOffSetElem(mapPinButton); // получаю координаты метки
   addressInput.placeholder = posPin.x + ',' + posPin.y; //  записываю эти координаты в placeholder
 
+  var isFirsRender = true;
+  var dragged = true;
+
   // код перемещения метки по карте
   mapPinButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
+    dragged = false;
 
     var startCoords = { // записал в объект начальные координаты относительно окна браузера
       x: evt.clientX,
@@ -38,6 +42,7 @@
 
     var onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
+      dragged = true;
 
       var shift = { // записал в объект вычисление значения смещения (на сколько был сдвиг)
         x: startCoords.x - moveEvt.clientX,
@@ -84,7 +89,12 @@
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
 
-      window.backend.load(window.pin.onSuccessLoad, window.pin.onErrorLoad);
+      if (dragged) {
+        if (isFirsRender) {
+          isFirsRender = false;
+          window.backend.load(window.pin.onSuccessLoad, window.pin.onErrorLoad);
+        }
+      }
     };
 
     document.addEventListener('mousemove', onMouseMove); // добавил обработчик перемещению метки
