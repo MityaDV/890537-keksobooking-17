@@ -10,10 +10,10 @@
   var adFormSelectTimeIn = adForm.querySelector('#timein'); // нахожу select timein
   var adFormSelectTimeOut = adForm.querySelector('#timeout'); // нахожу select timeout
 
-  var addAttributs = function (array) { // функция добавления атрибутов в массиве
-    for (var a = 0; a < array.length; a++) {
-      array[a].setAttribute('disabled', '');
-    }
+  var addAttributs = function (collection) { // функция пребразования HTML коллекции в массив и добавления атрибутов
+    Array.from(collection).forEach(function (it) {
+      it.setAttribute('disabled', '');
+    });
   };
 
   window.form = {
@@ -21,10 +21,10 @@
     mapFilterFieldsetElem: mapFilter.querySelector('.map__features'), // нахожу fieldset в форме фильтров
     adFormFields: adForm.querySelectorAll('fieldset'), // нахожу fieldset в форме объявлений
 
-    removeAttributsElem: function (array) { // функция удаления атрибутов
-      for (var b = 0; b < array.length; b++) {
-        array[b].removeAttribute('disabled');
-      }
+    removeAttributsElem: function (collection) { // функция пребразования HTML коллекции в массив и удаления атрибутов
+      Array.from(collection).forEach(function (it) {
+        it.removeAttribute('disabled');
+      });
     }
   };
 
