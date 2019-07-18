@@ -1,27 +1,30 @@
 'use strict';
 
 (function () {
+
+  var MIN_NUMBER_PIN = 1;
   // debugger;
   var similarMapPin = document.querySelector('.map__pins'); // находим блок для вставки меток
-  var mapPinButton = similarMapPin.querySelector('.map__pin');
-
+  var mapPinButtons = Array.from(similarMapPin.querySelectorAll('.map__pin'));
 
   var similarCardTemplate = document.querySelector('#card') // нахожу шаблон карточки
     .content
     .querySelector('.map__card');
 
   window.card = {
-
     onSuccessLoad: function (advertData) { // ф-я обработки при успешной загрузки
       var fragment = document.createDocumentFragment(); // создаём елемент fragment
 
-      fragment.appendChild(renderCard(advertData[1]));
+      advertData.slice(MIN_NUMBER_PIN).forEach(function (it) {
+        fragment.appendChild(renderCard(it));
+      });
 
       similarMapPin.appendChild(fragment); // вставляем сформированный фрагмент в разметку
     }
   };
 
-  var renderCard = function (advertData) {
+  var renderCard = function (advertData) { // ф-я описания новой карточки
+
     // копирую разметку шаблона карточки со всем содержимым
     var cardElement = similarCardTemplate.cloneNode(true);
 
@@ -30,10 +33,13 @@
 
     return cardElement;
   };
-
-
-  mapPinButton.addEventListener('click', function () {
-    window.backend.load(window.card.onSuccessLoad);
+  //  debugger;
+  mapPinButtons.forEach(function (it, index) {
+    if (index > 0) {
+      it.addEventListener('click', function () {
+        window.backend.load(window.card.onSuccessLoad);
+      });
+    }
   });
 
 })();
