@@ -18,6 +18,7 @@
       });
 
       similarMapPin.appendChild(fragment); // вставляем сформированный фрагмент в разметку
+      window.card.onClickNewPin(); // вызов ф-и для модуля card
     },
 
     getChangeHousingType: function (data) { // ф-я фильтра типа жилья
@@ -42,6 +43,7 @@
         });
 
         similarMapPin.appendChild(fragment);
+        window.card.onClickNewPin(); // вызов ф-и для модуля card
       };
 
       selectHousingType.addEventListener('change', onHousingTypeChange); // обработчик смены типа жилья
