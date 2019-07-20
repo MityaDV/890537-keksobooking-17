@@ -51,9 +51,14 @@
 
     var photoContainer = cardElement.querySelector('.popup__photos');
     var photoPopup = photoContainer.querySelector('img');
-    var newPhotoPopup = advertData.offer.photos.map(function (it) {
-      photoContainer.appendChild(photoPopup.cloneNode()).src = it;
+
+    advertData.offer.photos.map(function (it) {
+      var newPhoto = photoPopup.cloneNode();
+      newPhoto.src = it;
+      photoContainer.appendChild(newPhoto);
     });
+
+    cardElement.querySelector('.popup__avatar').src = advertData.author.avatar;
 
     // var popupFeatures = Array.from(cardElement.querySelectorAll('.popup__feature'));
 
