@@ -1,36 +1,24 @@
 'use strict';
 
 (function () {
+  var MAX_NUMBER_PIN = 5;
 
   var similarMapPin = document.querySelector('.map__pins'); // находим блок для вставки меток
-  var similarPinTemplate = document.querySelector('#pin') // находим шаблон меток
-    .content
-    .querySelector('.map__pin');
-
   var mapFilter = document.querySelector('.map__filters-container'); // блок фильтрации на карте
   var formFilter = mapFilter.querySelector('.map__filters'); // блок формы фильтрации
   var selectHousingType = formFilter.querySelector('#housing-type'); // селект с типами жилья
-  // var housingType = selectHousingType.querySelectorAll('option'); // все поля внутри селекта
 
-  var renderPin = function (advert) { // ф-я создания меток
-    var pinElement = similarPinTemplate.cloneNode(true); // клонируем метки
+  window.filter = {
 
-    // записываем новые значения из массива
-    pinElement.style = 'left: ' + advert.location.x + 'px;' + ' ' + 'top: ' + advert.location.y + 'px;';
-    pinElement.querySelector('img').src = advert.author.avatar;
-    pinElement.querySelector('img').alt = advert.offer.type;
-
-    return pinElement;
-  };
-
-  window.render = {
     getRenderPin: function (data) { // ф-я создания пяти меток
       var fragment = document.createDocumentFragment(); // создаём елемент fragment
-      data.slice(0, 5).forEach(function (elem) { // обрезаю массив и отрисовываю каждый элемент
-        fragment.appendChild(renderPin(elem));
+
+      data.slice(0, MAX_NUMBER_PIN).forEach(function (elem) { // обрезаю массив и отрисовываю каждый элемент
+        fragment.appendChild(window.pin.renderPin(elem));
       });
 
       similarMapPin.appendChild(fragment); // вставляем сформированный фрагмент в разметку
+      window.card.onClickNewPin(); // вызов ф-и для модуля card
     },
 
     getChangeHousingType: function (data) { // ф-я фильтра типа жилья
@@ -50,11 +38,12 @@
         });
 
         var fragment = document.createDocumentFragment(); // создаём елемент fragment
-        newPin.slice(0, 5).forEach(function (elem) { // перебираю отфильтрованный массив
-          fragment.appendChild(renderPin(elem));
+        newPin.slice(0, MAX_NUMBER_PIN).forEach(function (elem) { // перебираю отфильтрованный массив
+          fragment.appendChild(window.pin.renderPin(elem));
         });
 
         similarMapPin.appendChild(fragment);
+        window.card.onClickNewPin(); // вызов ф-и для модуля card
       };
 
       selectHousingType.addEventListener('change', onHousingTypeChange); // обработчик смены типа жилья
