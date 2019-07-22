@@ -14,11 +14,10 @@
       var fragment = document.createDocumentFragment(); // создаём елемент fragment
 
       data.slice(0, MAX_NUMBER_PIN).forEach(function (elem) { // обрезаю массив и отрисовываю каждый элемент
-        fragment.appendChild(window.pin.renderPin(elem));
+        fragment.appendChild(window.pin.render(elem));
       });
 
       similarMapPin.appendChild(fragment); // вставляем сформированный фрагмент в разметку
-      window.card.onClickNewPin(); // вызов ф-и для модуля card
     },
 
     getChangeHousingType: function (data) { // ф-я фильтра типа жилья
@@ -39,11 +38,10 @@
 
         var fragment = document.createDocumentFragment(); // создаём елемент fragment
         newPin.slice(0, MAX_NUMBER_PIN).forEach(function (elem) { // перебираю отфильтрованный массив
-          fragment.appendChild(window.pin.renderPin(elem));
+          fragment.appendChild(window.pin.render(elem));
         });
 
         similarMapPin.appendChild(fragment);
-        window.card.onClickNewPin(); // вызов ф-и для модуля card
       };
 
       selectHousingType.addEventListener('change', onHousingTypeChange); // обработчик смены типа жилья

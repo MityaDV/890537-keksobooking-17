@@ -12,8 +12,12 @@
 
   window.pin = {
     onSuccessLoad: function (advertData) { // ф-я обработки при успешной загрузки
+      window.pin.data = advertData; // сохранил полученные данные
+
       window.filter.getRenderPin(advertData);
       window.filter.getChangeHousingType(advertData);
+
+      window.card.render(advertData[0]); // отрисовываю первую карточку
     },
 
     onErrorLoad: function (errorMessage) { // ф-я обработки ошибок при загрузке
@@ -25,7 +29,7 @@
       document.querySelector('main').appendChild(fragment);
     },
 
-    renderPin: function (advertData) { // ф-я создания меток
+    render: function (advertData) { // ф-я создания меток
       // копирую разметку шаблона метки со всем содержимым
       var pinElement = similarPinTemplate.cloneNode(true);
 
@@ -35,7 +39,9 @@
       pinElement.querySelector('img').alt = advertData.offer.type;
 
       return pinElement;
-    }
+    },
+
+    data: []
   };
 
 })();
