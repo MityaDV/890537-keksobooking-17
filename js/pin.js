@@ -12,12 +12,10 @@
 
   window.pin = {
     onSuccessLoad: function (advertData) { // ф-я обработки при успешной загрузки
-      window.pin.data = advertData; // сохранил полученные данные
+      window.pin.data = advertData; // сохранил полученные данные с сервера
 
       window.filter.getRenderPin(advertData);
       window.filter.getChangeHousingType(advertData);
-
-      window.card.render(advertData[0]); // отрисовываю первую карточку
     },
 
     onErrorLoad: function (errorMessage) { // ф-я обработки ошибок при загрузке
@@ -26,7 +24,7 @@
       similarErrorTemplate.querySelector('.error__message').textContent = errorMessage;
 
       fragment.appendChild(similarErrorTemplate);
-      document.querySelector('main').appendChild(fragment);
+      document.body.querySelector('main').appendChild(fragment);
     },
 
     render: function (advertData) { // ф-я создания меток
@@ -37,11 +35,22 @@
       pinElement.style = 'left: ' + advertData.location.x + 'px;' + ' ' + 'top: ' + advertData.location.y + 'px;';
       pinElement.querySelector('img').src = advertData.author.avatar;
       pinElement.querySelector('img').alt = advertData.offer.type;
-
+      pinElement.addEventListener('click', window.pin.onPinClick);
       return pinElement;
     },
 
-    data: []
+    onPinClick: function (evt) {
+      debugger;
+      var pressPinEvent = evt.currentTarget;
+      var userSrcValue = pressPinEvent.querySelector('img').attributes.src.value;
+      window.pin.data.filter(function (it) {
+        if (it.author.avatar === userSrcValue) {
+          window.card.render(it); // отрисовываю первую карточку
+        }
+      });
+    },
+
+    data: [] // массив с объектами с пришедших данных
   };
 
 })();

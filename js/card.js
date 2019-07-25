@@ -11,7 +11,6 @@
 
   window.card = {
     render: function (advertData) { // ф-я отрисовки карточки
-
       map.insertBefore(createsCard(advertData), mapFilterContainer); // вставляем сформированный карточку в разметку
     }
   };

@@ -14,6 +14,7 @@
       var fragment = document.createDocumentFragment(); // создаём елемент fragment
 
       data.slice(0, MAX_NUMBER_PIN).forEach(function (elem) { // обрезаю массив и отрисовываю каждый элемент
+
         fragment.appendChild(window.pin.render(elem));
       });
 
@@ -24,8 +25,8 @@
 
       var onHousingTypeChange = function (evt) { // выбраное значение
         var newValue = evt.target.value;
-
-        var clearPin = Array.from(similarMapPin.querySelectorAll('.map__pin')); // удаляю метки
+        // удаляю метки
+        var clearPin = Array.from(similarMapPin.querySelectorAll('.map__pin'));
         clearPin.forEach(function (elem, index) {
           if (index > 0) {
             similarMapPin.removeChild(elem);
