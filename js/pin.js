@@ -39,13 +39,12 @@
       return pinElement;
     },
 
-    onPinClick: function (evt) {
-      debugger;
+    onPinClick: function (evt) { // ф-я отрисовки карточки при клике по метке
       var pressPinEvent = evt.currentTarget;
       var userSrcValue = pressPinEvent.querySelector('img').attributes.src.value;
       window.pin.data.filter(function (it) {
-        if (it.author.avatar === userSrcValue) {
-          window.card.render(it); // отрисовываю первую карточку
+        if (it.author.avatar === userSrcValue) { // проверяю и нахожу нужную карточку
+          window.card.render(it); // отрисовываю текущую карточку
         }
       });
     },

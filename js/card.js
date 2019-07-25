@@ -15,6 +15,15 @@
     }
   };
 
+  var onButtonCloseClick = function () { // ф-я закрытия карточки
+    var mapCard = map.querySelector('.map__card');
+    map.removeChild(mapCard);
+  };
+
+  var onCardEscPress = function (evt) { // ф-я закрытия карточки по нажатию esc
+    window.utils.isEscEvent(evt, onButtonCloseClick);
+  };
+
   var createsCard = function (advertData) { // ф-я добавления данных в новую карточку
 
     // копирую разметку шаблона карточки со всем содержимым
@@ -49,7 +58,7 @@
     dataFeatures.forEach(function (it) {
       popupFeatureContainer.appendChild(getFeatureLi[it]);
     });
-    // end удобств
+
     // описание объявления
     cardElement.querySelector('.popup__description').textContent = advertData.offer.description;
 
@@ -63,9 +72,15 @@
       photoContainer.appendChild(newPhoto);
     });
     photoContainer.removeChild(photoPopup);
-    // end фото
+
     // фото в аватарку
     cardElement.querySelector('.popup__avatar').src = advertData.author.avatar;
+
+    // логика закрытия карточки
+    var buttonCardClose = cardElement.querySelector('.popup__close');
+
+    buttonCardClose.addEventListener('click', onButtonCloseClick);
+    document.addEventListener('keydown', onCardEscPress);
 
     return cardElement;
   };
