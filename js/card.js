@@ -11,6 +11,11 @@
 
   window.card = {
     render: function (advertData) { // ф-я отрисовки карточки
+      var mapCard = map.querySelector('.map__card');
+
+      if (mapCard) {
+        map.removeChild(mapCard);
+      }
       map.insertBefore(createsCard(advertData), mapFilterContainer); // вставляем сформированный карточку в разметку
     }
   };
