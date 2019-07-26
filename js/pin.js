@@ -12,6 +12,8 @@
 
   window.pin = {
     onSuccessLoad: function (advertData) { // ф-я обработки при успешной загрузки
+      window.pin.data = advertData; // сохранил полученные данные с сервера
+
       window.filter.getRenderPin(advertData);
       window.filter.getChangeHousingType(advertData);
     },
@@ -22,10 +24,10 @@
       similarErrorTemplate.querySelector('.error__message').textContent = errorMessage;
 
       fragment.appendChild(similarErrorTemplate);
-      document.querySelector('main').appendChild(fragment);
+      document.body.querySelector('main').appendChild(fragment);
     },
 
-    renderPin: function (advertData) { // ф-я создания меток
+    render: function (advertData) { // ф-я создания меток
       // копирую разметку шаблона метки со всем содержимым
       var pinElement = similarPinTemplate.cloneNode(true);
 
@@ -33,9 +35,21 @@
       pinElement.style = 'left: ' + advertData.location.x + 'px;' + ' ' + 'top: ' + advertData.location.y + 'px;';
       pinElement.querySelector('img').src = advertData.author.avatar;
       pinElement.querySelector('img').alt = advertData.offer.type;
-
+      pinElement.addEventListener('click', window.pin.onPinClick);
       return pinElement;
-    }
+    },
+
+    onPinClick: function (evt) { // ф-я отрисовки карточки при клике по метке
+      var pressPinEvent = evt.currentTarget;
+      var userSrcValue = pressPinEvent.querySelector('img').attributes.src.value;
+      window.pin.data.filter(function (it) {
+        if (it.author.avatar === userSrcValue) { // проверяю и нахожу нужную карточку
+          window.card.render(it); // отрисовываю текущую карточку
+        }
+      });
+    },
+
+    data: [] // массив с объектами с пришедших данных
   };
 
 })();

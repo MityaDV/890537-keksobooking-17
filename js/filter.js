@@ -14,19 +14,19 @@
       var fragment = document.createDocumentFragment(); // создаём елемент fragment
 
       data.slice(0, MAX_NUMBER_PIN).forEach(function (elem) { // обрезаю массив и отрисовываю каждый элемент
-        fragment.appendChild(window.pin.renderPin(elem));
+
+        fragment.appendChild(window.pin.render(elem));
       });
 
       similarMapPin.appendChild(fragment); // вставляем сформированный фрагмент в разметку
-      window.card.onClickNewPin(); // вызов ф-и для модуля card
     },
 
     getChangeHousingType: function (data) { // ф-я фильтра типа жилья
 
       var onHousingTypeChange = function (evt) { // выбраное значение
         var newValue = evt.target.value;
-
-        var clearPin = Array.from(similarMapPin.querySelectorAll('.map__pin')); // удаляю метки
+        // удаляю метки
+        var clearPin = Array.from(similarMapPin.querySelectorAll('.map__pin'));
         clearPin.forEach(function (elem, index) {
           if (index > 0) {
             similarMapPin.removeChild(elem);
@@ -39,11 +39,10 @@
 
         var fragment = document.createDocumentFragment(); // создаём елемент fragment
         newPin.slice(0, MAX_NUMBER_PIN).forEach(function (elem) { // перебираю отфильтрованный массив
-          fragment.appendChild(window.pin.renderPin(elem));
+          fragment.appendChild(window.pin.render(elem));
         });
 
         similarMapPin.appendChild(fragment);
-        window.card.onClickNewPin(); // вызов ф-и для модуля card
       };
 
       selectHousingType.addEventListener('change', onHousingTypeChange); // обработчик смены типа жилья
