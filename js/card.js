@@ -47,21 +47,13 @@
     var popupFeatures = popupFeatureContainer.querySelectorAll('.popup__feature');
     var dataFeatures = advertData.offer.features;
 
-    // ф-я создания объекта из двух массивов
-    var arrsToObject = function (keys, vals) {
-      return keys.reduce(function (prev, val, i) {
-        prev[val] = vals[i];
-        return prev;
-      }, {});
-    };
-
     // создал словарь
-    var getFeatureLi = arrsToObject(dataFeatures, popupFeatures);
+    var featureToClassLi = window.utils.getArrsToObject(dataFeatures, popupFeatures);
     // очистил блок с преимуществами
     popupFeatureContainer.innerHTML = '';
     // перебираю и добавляю только имеющиеся преимущества
     dataFeatures.forEach(function (it) {
-      popupFeatureContainer.appendChild(getFeatureLi[it]);
+      popupFeatureContainer.appendChild(featureToClassLi[it]);
     });
 
     // описание объявления

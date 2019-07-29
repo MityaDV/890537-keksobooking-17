@@ -70,11 +70,14 @@
 
       mapPinButtonMain.style.left = (posPin.x - shift.x) + 'px'; // записываю новые координаты метки
       mapPinButtonMain.style.top = (posPin.y - shift.y) + 'px';
+      // координата острого конца указателя по x
+      var coordPinX = (posPin.x + (mapPinButtonMain.offsetWidth / 2));
+      // координата острого конца указателя по y
+      var coordPinY = (posPin.y + mapPinButtonMain.offsetHeight + MARK_POINTER_HEIGHT);
 
-      var coordPinX = (posPin.x + (mapPinButtonMain.offsetWidth / 2)); // координата острого конца указателя по x
-      var coordPinY = (posPin.y + mapPinButtonMain.offsetHeight + MARK_POINTER_HEIGHT); // координата острого конца указателя по y
-
-      addressInput.setAttribute('placeholder', coordPinX + ',' + coordPinY); // записал координаты с поправкой на указатель в поле
+      // записал координаты с поправкой на указатель в поле
+      addressInput.removeAttribute('placeholder');
+      addressInput.value = coordPinX + ',' + coordPinY;
 
       window.form.removeAttributsElem(window.form.mapFiltersSelection); // разблокировали все поля
       window.form.removeAttributsElem(window.form.adFormFields); //  разблокировали все поля
