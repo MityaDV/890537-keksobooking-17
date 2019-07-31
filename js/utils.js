@@ -23,6 +23,13 @@
         prev[val] = vals[i];
         return prev;
       }, {});
+    },
+
+    getPositionOffSetElem: function (elem) { // функция получения координат отступов
+      return {
+        x: elem.offsetLeft, // левый отступ эл-та от родителя
+        y: elem.offsetTop // верхний отступ эл-та от родителя
+      };
     }
   };
 

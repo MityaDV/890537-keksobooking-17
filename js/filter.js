@@ -26,8 +26,8 @@
       var onHousingTypeChange = function (evt) { // выбраное значение
         var newValue = evt.target.value;
         // удаляю метки
-        var clearPin = Array.from(similarMapPin.querySelectorAll('.map__pin'));
-        clearPin.forEach(function (elem, index) {
+        var clearPins = Array.from(similarMapPin.querySelectorAll('.map__pin'));
+        clearPins.forEach(function (elem, index) {
           if (index > 0) {
             similarMapPin.removeChild(elem);
           }

@@ -17,14 +17,7 @@
     left: similarMapPin.offsetLeft
   };
 
-  var getPositionOffSetElem = function (elem) { // функция получения координат отступов
-    return {
-      x: elem.offsetLeft, // левый отступ эл-та от родителя
-      y: elem.offsetTop // верхний отступ эл-та от родителя
-    };
-  };
-
-  var posPin = getPositionOffSetElem(mapPinButtonMain); // получаю координаты метки
+  var posPin = window.utils.getPositionOffSetElem(mapPinButtonMain); // получаю координаты метки
   addressInput.placeholder = posPin.x + ',' + posPin.y; //  записываю эти координаты в placeholder
 
   var isFirsRender = true;
@@ -54,7 +47,7 @@
         y: moveEvt.clientY
       };
 
-      posPin = getPositionOffSetElem(mapPinButtonMain); // отступы элемента offsetTop и Left
+      posPin = window.utils.getPositionOffSetElem(mapPinButtonMain); // отступы элемента offsetTop и Left
 
       if (posPin.x <= limitsCoord.left) { // проверяю находится ли метка в границах родительского блока по x
         posPin.x = limitsCoord.left;

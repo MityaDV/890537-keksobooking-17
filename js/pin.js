@@ -29,6 +29,20 @@
 
       fragment.appendChild(similarErrorTemplate);
       document.body.querySelector('main').appendChild(fragment);
+
+      var errorButton = similarErrorTemplate.querySelector('.error__button');
+
+      var onMessageClick = function () {
+        similarErrorTemplate.setAttribute('hidden', '');
+      };
+
+      var onMessageEscPress = function (_evt) { // ф-я закрытия карточки по нажатию esc
+        window.utils.isEscEvent(_evt, onMessageClick);
+      };
+
+      similarErrorTemplate.addEventListener('click', onMessageClick);
+      document.addEventListener('keydown', onMessageEscPress);
+      errorButton.addEventListener('click', onMessageClick);
     },
 
     render: function (advertData) { // ф-я создания меток
