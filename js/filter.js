@@ -7,6 +7,7 @@
   var mapFilter = document.querySelector('.map__filters-container'); // блок фильтрации на карте
   var formFilter = mapFilter.querySelector('.map__filters'); // блок формы фильтрации
   var selectHousingType = formFilter.querySelector('#housing-type'); // селект с типами жилья
+  var map = document.querySelector('.map'); // нахожу блок карты
 
   window.filter = {
 
@@ -32,6 +33,11 @@
             similarMapPin.removeChild(elem);
           }
         });
+
+        var clearCard = map.querySelector('.map__card'); // удаляю открытую карточку
+        if (clearCard) {
+          map.removeChild(clearCard);
+        }
 
         var newPin = data.filter(function (elem) { // фильтрую массив по типу жилья
           return elem.offer.type === newValue;
