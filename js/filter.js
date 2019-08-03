@@ -9,10 +9,10 @@
   var selectHousingType = formFilter.querySelector('#housing-type'); // селект с типами жилья
   var selectHousingPrice = formFilter.querySelector('#housing-price'); // селект с ценой жилья
   var optionsHousingPrice = Array.from(selectHousingPrice.querySelectorAll('option'));
-  var selectHousingRoom = formFilter.querySelector('#housing-rooms'); // селект с числом комнат
-  var selectHousingGuest = formFilter.querySelector('#housing-guests'); // селект с числом гостей
-  var selectHousingFeature = formFilter.querySelector('#housing-features'); // фиелдсет с удоюствами
-  var inputMapFeatures = selectHousingFeature.querySelectorAll('.map__feature'); // фиелдсет с удоюствами
+  // var selectHousingRoom = formFilter.querySelector('#housing-rooms'); // селект с числом комнат
+  // var selectHousingGuest = formFilter.querySelector('#housing-guests'); // селект с числом гостей
+  // var selectHousingFeature = formFilter.querySelector('#housing-features'); // фиелдсет с удоюствами
+  // var inputMapFeatures = selectHousingFeature.querySelectorAll('.map__feature'); // фиелдсет с удоюствами
 
   var map = document.querySelector('.map'); // нахожу блок карты
 
