@@ -19,7 +19,7 @@
       window.pin.data = advertData; // сохранил полученные данные с сервера
 
       window.filter.getRenderPin(advertData);
-      window.filter.getChangeHousingType(advertData);
+      window.filter.getChangeHousingFilter(advertData);
     },
 
     onErrorLoad: function (errorMessage) { // ф-я обработки ошибок при загрузке

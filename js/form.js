@@ -21,6 +21,7 @@
   var mapActive = document.querySelector('.map'); // находим блок карты
   var similarMapPin = document.querySelector('.map__pins'); // находим блок для вставки меток
   var addressInput = adForm.querySelector('[name="address"]');
+  var adFormInputs = adForm.querySelectorAll('input'); // нахожу все input
 
   var addAttributs = function (collection) { // функция пребразования HTML коллекции в массив и добавления атрибутов
     Array.from(collection).forEach(function (it) {
@@ -92,64 +93,64 @@
   adFormSelectCapacity.addEventListener('change', onRoomChange);
 
   // код задания по отправке формы
+  var successMessage = document.querySelector('#success') // находим шаблон успешного создания объявления
+    .content
+    .querySelector('.success');
 
-  adForm.addEventListener('submit', function (evt) {
+  var clearValue = function (collection) { // ф-я очистки значения заполненных полей
+    Array.from(collection).forEach(function (it) {
+      it.value = '';
+    });
+  };
 
-    window.backend.save(new FormData(adForm), function (_response) {
-      var clearPins = Array.from(similarMapPin.querySelectorAll('.map__pin')); // находим метки отрисованные
+  var onMessageClick = function () { // ф-я при клике по пустой области
+    successMessage.setAttribute('hidden', '');
+  };
 
-      clearPins.forEach(function (elem, index) { // удаляю отрисованные метки
-        if (index === 0) {
-          elem.style.left = PIN_MAIN_LEFT + 'px';
-          elem.style.top = PIN_MAIN_TOP + 'px';
+  var onMessageEscPress = function (_evt) { // ф-я закрытия сообщения об отправке по нажатию esc
+    window.utils.isEscEvent(_evt, onMessageClick);
+  };
 
-          var posPin = window.utils.getPositionOffSetElem(elem); // получаю координаты метки
-          addressInput.placeholder = '';
-          addressInput.placeholder = posPin.x + ',' + posPin.y; //  записываю эти координаты в placeholder
+  var onSuccessUpload = function () {
+    var clearPins = Array.from(similarMapPin.querySelectorAll('.map__pin')); // находим метки отрисованные
 
-        } else if (index > 0) {
-          similarMapPin.removeChild(elem);
-        }
-      });
+    clearPins.forEach(function (elem, index) { // удаляю отрисованные метки
+      if (index === 0) {
+        elem.style.left = PIN_MAIN_LEFT + 'px';
+        elem.style.top = PIN_MAIN_TOP + 'px';
 
-      var adFormInputs = adForm.querySelectorAll('input'); // очищаю значения input
-      var clearValue = function (collection) {
-        Array.from(collection).forEach(function (it) {
-          it.value = '';
-        });
-      };
+        var posPin = window.utils.getPositionOffSetElem(elem); // получаю координаты метки
+        addressInput.placeholder = '';
+        addressInput.placeholder = posPin.x + ',' + posPin.y; //  записываю эти координаты в placeholder
 
-      clearValue(adFormInputs);
-      adForm.querySelector('#description').value = ''; // очищаю поле описания
+      } else if (index > 0) {
+        similarMapPin.removeChild(elem);
+      }
+    });
 
-      var mapCard = mapActive.querySelector('.map__card'); // удаляю карточку
-      mapActive.removeChild(mapCard);
+    var mapCard = mapActive.querySelector('.map__card'); // нахожу карточку если она есть
+    if (mapCard) {
+      mapActive.removeChild(mapCard); // если карточка есть удаляю её
+    }
 
-      mapActive.classList.add('map--faded'); // блокирую блок карты
-      adForm.classList.add('ad-form--disabled'); // блокирую поля формы объявлений
-      addAttributs(window.form.mapFiltersSelection); // блокирую select формы фильтров
-      addAttributs(window.form.adFormFields); // блокирую fieldset формы объявлений
-      window.form.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокирую fieldset в форме фильтров
+    clearValue(adFormInputs); // очищаю заполненные input
+    adForm.querySelector('#description').value = ''; // очищаю поле описания
 
-      var successMessage = document.querySelector('#success') // находим шаблон успешного создания объявления
-        .content
-        .querySelector('.success');
+    mapActive.classList.add('map--faded'); // блокирую блок карты
+    adForm.classList.add('ad-form--disabled'); // блокирую поля формы объявлений
+    addAttributs(window.form.mapFiltersSelection); // блокирую select формы фильтров
+    addAttributs(window.form.adFormFields); // блокирую fieldset формы объявлений
+    window.form.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокирую fieldset в форме фильтров
 
-      document.body.querySelector('main').appendChild(successMessage); // показываю объявление
+    document.body.querySelector('main').appendChild(successMessage); // показываю объявление
 
-      var onMessageClick = function () {
-        successMessage.setAttribute('hidden', '');
-      };
+    successMessage.addEventListener('click', onMessageClick);
+    document.addEventListener('keydown', onMessageEscPress);
+  };
 
-      var onMessageEscPress = function (_evt) { // ф-я закрытия карточки по нажатию esc
-        window.utils.isEscEvent(_evt, onMessageClick);
-      };
-
-      successMessage.addEventListener('click', onMessageClick);
-      document.addEventListener('keydown', onMessageEscPress);
-
-    }, window.pin.onErrorLoad);
-
+  adForm.addEventListener('submit', function (evt) { // навешиваю обработчик при отправке формы
     evt.preventDefault();
+    window.backend.save(new FormData(adForm), onSuccessUpload, window.pin.onErrorLoad);
   });
+
 })();

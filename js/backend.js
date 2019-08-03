@@ -4,7 +4,7 @@
 
   var TIMEOUT = 10000;
   var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
-  var URL_SAVE = 'https://js.dump.academy/keksobookingq';
+  var URL_SAVE = 'https://js.dump.academy/keksobooking';
 
   window.backend = {
     load: function (onSuccess, onError) {
