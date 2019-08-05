@@ -62,12 +62,11 @@
       filterState.features.pop(evt.target.defaultValue);
     }
 
-    // console.log(filterState);
-
     var filteredPins = window.pin.data.filter(function (pin) { // фильтрую метки
+      var result = true;
       if (filterState.type !== 'any') {
         if (pin.offer.type !== filterState.type) {
-          return false;
+          result = false;
         }
       }
 
@@ -79,29 +78,31 @@
         } else if (filterState.price === 'high') {
           return pin.offer.price > HIGH_PRICE;
         }
-        return false;
+        result = false;
       }
 
       if (filterState.rooms !== 'any') {
         if (pin.offer.rooms !== +filterState.rooms) {
-          return false;
+          result = false;
         }
       }
 
       if (filterState.guests !== 'any') {
         if (pin.offer.guests !== +filterState.guests) {
-          return false;
+          result = false;
         }
       }
 
-      if (filterState.features !== []) {
-        filterState.features.find(function (elem) {
-          return pin.offer.features[elem];
+      if (filterState.features.length !== 0) {
+        filterState.features.forEach(function (stateFeature) {
+          if (!pin.offer.features.includes(stateFeature)) {
+            result = false;
+            return;
+          }
         });
-        return false;
       }
 
-      return true;
+      return result;
     });
 
     getClearMap();
