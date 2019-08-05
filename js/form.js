@@ -129,6 +129,7 @@
     });
 
     var mapCard = mapActive.querySelector('.map__card'); // нахожу карточку если она есть
+
     if (mapCard) {
       mapActive.removeChild(mapCard); // если карточка есть удаляю её
     }

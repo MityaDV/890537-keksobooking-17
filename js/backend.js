@@ -17,7 +17,6 @@
           case 200:
             onSuccess(xhr.response);
             break;
-
           case 400:
             error = 'Неверный запрос';
             break;
@@ -27,7 +26,6 @@
           case 404:
             error = 'Ничего не найдено';
             break;
-
           default:
             error = 'Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText;
         }
