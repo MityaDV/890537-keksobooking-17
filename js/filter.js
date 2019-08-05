@@ -57,7 +57,7 @@
     }
 
     var filteredPins = window.pin.data.filter(function (pin) {
-      if (pin.offer.type !== filterState.type) {
+      if (pin.offer.type !== filterState.type || filterState.type !== 'any') {
         return false;
       }
       if (pin.offer.rooms !== +filterState.rooms) {
