@@ -3,18 +3,12 @@
 (function () {
   var MAX_NUMBER_PIN = 5;
 
+  var map = document.querySelector('.map'); // нахожу блок карты
   var similarMapPin = document.querySelector('.map__pins'); // находим блок для вставки меток
   var mapFilter = document.querySelector('.map__filters-container'); // блок фильтрации на карте
   var formFilter = mapFilter.querySelector('.map__filters'); // блок формы фильтрации
-  var selectHousingType = formFilter.querySelector('#housing-type'); // селект с типами жилья
   var selectHousingPrice = formFilter.querySelector('#housing-price'); // селект с ценой жилья
   var optionsHousingPrice = Array.from(selectHousingPrice.querySelectorAll('option'));
-  var selectHousingRoom = formFilter.querySelector('#housing-rooms'); // селект с числом комнат
-  var selectHousingGuest = formFilter.querySelector('#housing-guests'); // селект с числом гостей
-  var selectHousingFeature = formFilter.querySelector('#housing-features'); // фиелдсет с удоюствами
-  var inputMapFeatures = selectHousingFeature.querySelectorAll('.map__feature'); // фиелдсет с удоюствами
-
-  var map = document.querySelector('.map'); // нахожу блок карты
 
   // удаляю метки и открытые карточки
   var getClearMap = function () {
@@ -45,6 +39,76 @@
     return valuePriceToNumberPrice;
   };
 
+  var filterState = {
+    type: 'any',
+    price: 'any',
+    rooms: 'any',
+    guests: 'any',
+    features: []
+  };
+
+  var priceState = getPriceHousing(); // получил словарь с значениями цен
+  var HIGH_PRICE = parseInt(priceState.middle.split('-')[1], 10); // max цена
+  var LOW_PRICE = parseInt(priceState.middle.split('-')[0], 10); // min цена
+
+  var onFilterChange = function (evt) {
+    var checked = evt.target.checked;
+
+    if (evt.target.tagName === 'SELECT') {
+      filterState[evt.target.id.split('-')[1]] = evt.target.value;
+    } if (checked) {
+      filterState.features.push(evt.target.defaultValue);
+    } else if (!checked) {
+      filterState.features.pop(evt.target.defaultValue);
+    }
+
+    var filteredPins = window.pin.data.filter(function (pin) { // фильтрую метки
+      var result = true;
+      if (filterState.type !== 'any') {
+        if (pin.offer.type !== filterState.type) {
+          result = false;
+        }
+      }
+
+      if (filterState.price !== 'any') {
+        if (filterState.price === 'middle') {
+          return pin.offer.price > LOW_PRICE && pin.offer.price < HIGH_PRICE;
+        } else if (filterState.price === 'low') {
+          return pin.offer.price < LOW_PRICE;
+        } else if (filterState.price === 'high') {
+          return pin.offer.price > HIGH_PRICE;
+        }
+        result = false;
+      }
+
+      if (filterState.rooms !== 'any') {
+        if (pin.offer.rooms !== +filterState.rooms) {
+          result = false;
+        }
+      }
+
+      if (filterState.guests !== 'any') {
+        if (pin.offer.guests !== +filterState.guests) {
+          result = false;
+        }
+      }
+
+      if (filterState.features.length !== 0) {
+        filterState.features.forEach(function (stateFeature) {
+          if (!pin.offer.features.includes(stateFeature)) {
+            result = false;
+            return;
+          }
+        });
+      }
+
+      return result;
+    });
+
+    getClearMap();
+    window.filter.getRenderPin(filteredPins);
+  };
+
   window.filter = {
 
     getRenderPin: function (data) { // ф-я создания пяти меток
@@ -58,52 +122,8 @@
       similarMapPin.appendChild(fragment); // вставляем сформированный фрагмент в разметку
     },
 
-    getChangeHousingFilter: function (data) { // ф-я фильтра типа жилья
-
-      var onHousingChangeType = function (evt) { // выбраное значение типа жилья
-        getClearMap();
-
-        var newValue = evt.target.value;
-
-        var newPinType = data.filter(function (elem) { // фильтрую массив по типу жилья
-          return elem.offer.type === newValue;
-        });
-
-        var fragment = document.createDocumentFragment(); // создаём елемент fragment
-
-        newPinType.slice(0, MAX_NUMBER_PIN).forEach(function (elem) { // перебираю отфильтрованный массив
-          fragment.appendChild(window.pin.render(elem));
-        });
-
-        similarMapPin.appendChild(fragment);
-      };
-
-      var onHousingChangePrice = function (evt) {
-        getClearMap();
-
-        var newValue = evt.target.value;
-
-        var price = getPriceHousing();
-        var regex = /[\d|,|.|e|E|\+]+/g;
-        var priceItem = price[newValue].match(regex);
-
-        var newPinPrice = data.filter(function (elem) { // фильтрую массив по цене жилья
-          return elem.offer.price < priceItem;
-        });
-        // return newPinPrice;
-        var fragment = document.createDocumentFragment(); // создаём елемент fragment
-
-        newPinPrice.slice(0, MAX_NUMBER_PIN).forEach(function (elem) { // перебираю отфильтрованный массив
-          fragment.appendChild(window.pin.render(elem));
-        });
-
-        similarMapPin.appendChild(fragment);
-      };
-
-      selectHousingType.addEventListener('change', onHousingChangeType); // обработчик смены типа жилья
-      selectHousingPrice.addEventListener('change', onHousingChangePrice); // обработчик смены цены жилья
-      // selectHousingRoom.addEventListener('change', onHousingChangeFilter); // обработчик смены кол-ва комнат
-      // selectHousingGuest.addEventListener('change', onHousingChangeFilter); // обработчик смены кол-ва жильцов
+    getChangeHousingFilter: function () {
+      formFilter.addEventListener('change', onFilterChange);
     }
   };
 

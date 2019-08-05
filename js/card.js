@@ -23,10 +23,12 @@
   var onButtonCloseClick = function () { // ф-я закрытия карточки
     var mapCard = map.querySelector('.map__card');
     map.removeChild(mapCard);
+    document.removeEventListener('keydown', onCardEscPress);
   };
 
   var onCardEscPress = function (evt) { // ф-я закрытия карточки по нажатию esc
     window.utils.isEscEvent(evt, onButtonCloseClick);
+    document.removeEventListener('keydown', onCardEscPress);
   };
 
   var createsCard = function (advertData) { // ф-я добавления данных в новую карточку

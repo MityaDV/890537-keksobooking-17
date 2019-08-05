@@ -3,8 +3,6 @@
 (function () {
 
   var MIN_PRICE_HOUSING = [0, 1000, 5000, 10000];
-  var MAX_ROOM = '100';
-  var NOT_CAPACITY = '0';
   var PIN_MAIN_LEFT = 570;
   var PIN_MAIN_TOP = 375;
 
@@ -75,22 +73,34 @@
   adFormFieldsetTime.addEventListener('change', onTimeChange); // навешиваю обработчик с переданной ф-й на fieldset c двумя select времени заезда и выезда
 
   // код для полей кол-во комнат и кол-во мест
+  var RoomToCapacity = {
+    1: ['1'],
+    2: ['2', '1'],
+    3: ['3', '2', '1'],
+    100: ['0']
+  };
+
+  var removeAtributOption = function (element) {
+    element.removeAttribute('disabled');
+  };
+
+  var addClassOption = function (element) {
+    element.classList.add('hidden');
+  };
 
   var onRoomChange = function () {
-    var valueRoom = adFormSelectRoomNumber.value;
-    var valueCapacity = adFormSelectCapacity.value;
-
-    if (valueRoom < valueCapacity) {
-      adFormSelectCapacity.setCustomValidity('Значение должно быть, меньше или равно количеству комнат');
-    } else if (valueRoom === MAX_ROOM && !(valueCapacity === NOT_CAPACITY)) {
-      adFormSelectCapacity.setCustomValidity('Значение должно быть равно, "не для гостей"');
-    } else {
-      adFormSelectCapacity.setCustomValidity('');
-    }
+    var guests = RoomToCapacity[adFormSelectRoomNumber.value];
+    [].forEach.call(adFormSelectCapacity.options, function (element) {
+      if (guests.includes(element.value)) {
+        removeAtributOption(element);
+      } else {
+        addClassOption(element);
+      }
+    });
+    adFormSelectCapacity.value = guests[0];
   };
 
   adFormSelectRoomNumber.addEventListener('change', onRoomChange);
-  adFormSelectCapacity.addEventListener('change', onRoomChange);
 
   // код задания по отправке формы
   var successMessage = document.querySelector('#success') // находим шаблон успешного создания объявления
@@ -129,6 +139,7 @@
     });
 
     var mapCard = mapActive.querySelector('.map__card'); // нахожу карточку если она есть
+
     if (mapCard) {
       mapActive.removeChild(mapCard); // если карточка есть удаляю её
     }
