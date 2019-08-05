@@ -2,8 +2,6 @@
 
 (function () {
   var MAX_NUMBER_PIN = 5;
-  var HIGH_PRICE = parseInt(priceState.middle.split('-')[1], 10); // max цена
-  var LOW_PRICE = parseInt(priceState.middle.split('-')[0], 10); // min цена
 
   var map = document.querySelector('.map'); // нахожу блок карты
   var similarMapPin = document.querySelector('.map__pins'); // находим блок для вставки меток
@@ -50,6 +48,8 @@
   };
 
   var priceState = getPriceHousing(); // получил словарь с значениями цен
+  var HIGH_PRICE = parseInt(priceState.middle.split('-')[1], 10); // max цена
+  var LOW_PRICE = parseInt(priceState.middle.split('-')[0], 10); // min цена
 
   var onFilterChange = function (evt) {
     var checked = evt.target.checked;
