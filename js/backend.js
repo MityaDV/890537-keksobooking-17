@@ -5,6 +5,12 @@
   var TIMEOUT = 10000;
   var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
   var URL_SAVE = 'https://js.dump.academy/keksobooking';
+  var Code = {
+    SUCCESS: 200,
+    REQUEST_ERROR: 400,
+    NOT_USER_ERROR: 401,
+    NOT_FOUND_ERROR: 404
+  };
 
   window.backend = {
     load: function (onSuccess, onError) {
@@ -14,16 +20,16 @@
       xhr.addEventListener('load', function () {
         var error;
         switch (xhr.status) {
-          case 200:
+          case Code.SUCCESS:
             onSuccess(xhr.response);
             break;
-          case 400:
+          case Code.REQUEST_ERROR:
             error = 'Неверный запрос';
             break;
-          case 401:
+          case Code.NOT_USER_ERROR:
             error = 'Пользователь не авторизован';
             break;
-          case 404:
+          case Code.NOT_FOUND_ERROR:
             error = 'Ничего не найдено';
             break;
           default:
@@ -54,7 +60,7 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === 200) {
+        if (xhr.status === Code.SUCCESS) {
           onSuccess(xhr.response);
         } else {
           onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
