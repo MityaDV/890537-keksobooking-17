@@ -21,7 +21,7 @@
   var addressInput = adForm.querySelector('[name="address"]');
   var adFormInputs = adForm.querySelectorAll('input'); // нахожу все input
 
-  var addAttributs = function (collection) { // функция пребразования HTML коллекции в массив и добавления атрибутов
+  var addAttributes = function (collection) { // функция пребразования HTML коллекции в массив и добавления атрибутов
     Array.from(collection).forEach(function (it) {
       it.setAttribute('disabled', '');
     });
@@ -32,15 +32,15 @@
     mapFilterFieldsetElem: mapFilter.querySelector('.map__features'), // нахожу fieldset в форме фильтров
     adFormFields: adForm.querySelectorAll('fieldset'), // нахожу fieldset в форме объявлений
 
-    removeAttributsElem: function (collection) { // функция пребразования HTML коллекции в массив и удаления атрибутов
+    removeAttributesElem: function (collection) { // функция пребразования HTML коллекции в массив и удаления атрибутов
       Array.from(collection).forEach(function (it) {
         it.removeAttribute('disabled');
       });
     }
   };
 
-  addAttributs(window.form.mapFiltersSelection); // блокирую select формы фильтров
-  addAttributs(window.form.adFormFields); // блокирую fieldset формы объявлений
+  addAttributes(window.form.mapFiltersSelection); // блокирую select формы фильтров
+  addAttributes(window.form.adFormFields); // блокирую fieldset формы объявлений
   window.form.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокируем fieldset в форме фильтров
 
   // Код фильтрации в форме объявления
@@ -168,8 +168,8 @@
 
     mapActive.classList.add('map--faded'); // блокирую блок карты
     adForm.classList.add('ad-form--disabled'); // блокирую поля формы объявлений
-    addAttributs(window.form.mapFiltersSelection); // блокирую select формы фильтров
-    addAttributs(window.form.adFormFields); // блокирую fieldset формы объявлений
+    addAttributes(window.form.mapFiltersSelection); // блокирую select формы фильтров
+    addAttributes(window.form.adFormFields); // блокирую fieldset формы объявлений
     window.form.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокирую fieldset в форме фильтров
 
     document.body.querySelector('main').appendChild(successMessage); // показываю объявление

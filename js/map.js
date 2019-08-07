@@ -73,8 +73,8 @@
       addressInput.removeAttribute('placeholder');
       addressInput.value = coordPinX + ',' + coordPinY;
 
-      window.form.removeAttributsElem(window.form.mapFiltersSelection); // разблокировали все поля
-      window.form.removeAttributsElem(window.form.adFormFields); //  разблокировали все поля
+      window.form.removeAttributesElem(window.form.mapFiltersSelection); // разблокировали все поля
+      window.form.removeAttributesElem(window.form.adFormFields); //  разблокировали все поля
       window.form.mapFilterFieldsetElem.removeAttribute('disabled'); //  разблокировали поле
       mapActive.classList.remove('map--faded'); // показываем блок карты
       adForm.classList.remove('ad-form--disabled'); // показываем поля формы объявлений
