@@ -65,7 +65,7 @@
       mapPinButtonMain.style.left = (posPin.x - shift.x) + 'px'; // записываю новые координаты метки
       mapPinButtonMain.style.top = (posPin.y - shift.y) + 'px';
       // координата острого конца указателя по x
-      var coordPinX = (posPin.x + (mapPinButtonMain.offsetWidth / MARK_POINTER_WIDTH));
+      var coordPinX = Math.round((posPin.x + (mapPinButtonMain.offsetWidth / MARK_POINTER_WIDTH)));
       // координата острого конца указателя по y
       var coordPinY = (posPin.y + mapPinButtonMain.offsetHeight + MARK_POINTER_HEIGHT);
 
