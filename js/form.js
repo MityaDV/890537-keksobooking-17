@@ -149,6 +149,14 @@
         input.checked = false;
       }
     });
+
+    window.upload.preview.src = 'img/muffin-grey.svg'; // сброс аватарки пользователя
+
+    // сброс загруженных изображений
+    var uploadPhoto = adForm.querySelectorAll('img.ad-form__photo');
+    Array.from(uploadPhoto).forEach(function (photo) {
+      window.upload.photoContainer.removeChild(photo);
+    });
   };
 
   var onMessageClick = function () { // ф-я при клике по пустой области

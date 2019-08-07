@@ -5,6 +5,7 @@
   var TIMEOUT = 10000;
   var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
   var URL_SAVE = 'https://js.dump.academy/keksobooking';
+
   var Code = {
     SUCCESS: 200,
     REQUEST_ERROR: 400,
