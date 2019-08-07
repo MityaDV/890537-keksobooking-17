@@ -21,7 +21,7 @@
   var addressInput = adForm.querySelector('[name="address"]');
   var adFormInputs = adForm.querySelectorAll('input'); // нахожу все input
 
-  var addAttributs = function (collection) { // функция пребразования HTML коллекции в массив и добавления атрибутов
+  var addAttributes = function (collection) { // функция пребразования HTML коллекции в массив и добавления атрибутов
     Array.from(collection).forEach(function (it) {
       it.setAttribute('disabled', '');
     });
@@ -32,15 +32,15 @@
     mapFilterFieldsetElem: mapFilter.querySelector('.map__features'), // нахожу fieldset в форме фильтров
     adFormFields: adForm.querySelectorAll('fieldset'), // нахожу fieldset в форме объявлений
 
-    removeAttributsElem: function (collection) { // функция пребразования HTML коллекции в массив и удаления атрибутов
+    removeAttributesElem: function (collection) { // функция пребразования HTML коллекции в массив и удаления атрибутов
       Array.from(collection).forEach(function (it) {
         it.removeAttribute('disabled');
       });
     }
   };
 
-  addAttributs(window.form.mapFiltersSelection); // блокирую select формы фильтров
-  addAttributs(window.form.adFormFields); // блокирую fieldset формы объявлений
+  addAttributes(window.form.mapFiltersSelection); // блокирую select формы фильтров
+  addAttributes(window.form.adFormFields); // блокирую fieldset формы объявлений
   window.form.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокируем fieldset в форме фильтров
 
   // Код фильтрации в форме объявления
@@ -102,6 +102,7 @@
 
   adFormSelectRoomNumber.addEventListener('change', onRoomChange);
 
+
   // код задания по отправке формы
   var successMessage = document.querySelector('#success') // находим шаблон успешного создания объявления
     .content
@@ -113,15 +114,7 @@
     });
   };
 
-  var onMessageClick = function () { // ф-я при клике по пустой области
-    successMessage.setAttribute('hidden', '');
-  };
-
-  var onMessageEscPress = function (_evt) { // ф-я закрытия сообщения об отправке по нажатию esc
-    window.utils.isEscEvent(_evt, onMessageClick);
-  };
-
-  var onSuccessUpload = function () {
+  var onClickButtonReset = function () { // ф-я reset формы
     var clearPins = Array.from(similarMapPin.querySelectorAll('.map__pin')); // находим метки отрисованные
 
     clearPins.forEach(function (elem, index) { // удаляю отрисованные метки
@@ -144,13 +137,47 @@
       mapActive.removeChild(mapCard); // если карточка есть удаляю её
     }
 
+    window.form.mapFiltersSelection.forEach(function (option) { // сброс значений полей фильтров на карте
+      if (option.value !== 'any') {
+        option.value = 'any';
+      }
+    });
+
+    var featuresInputs = window.form.mapFilterFieldsetElem.querySelectorAll('input'); // сброс выбранных чекбоксов
+    featuresInputs.forEach(function (input) {
+      if (input.checked === true) {
+        input.checked = false;
+      }
+    });
+
+    window.upload.preview.src = 'img/muffin-grey.svg'; // сброс аватарки пользователя
+
+    // сброс загруженных изображений
+    var uploadPhoto = adForm.querySelectorAll('img.ad-form__photo');
+    Array.from(uploadPhoto).forEach(function (photo) {
+      window.upload.photoContainer.removeChild(photo);
+    });
+  };
+
+  var onMessageClick = function () { // ф-я при клике по пустой области
+    successMessage.setAttribute('hidden', '');
+  };
+
+  var onMessageEscPress = function (_evt) { // ф-я закрытия сообщения об отправке по нажатию esc
+    window.utils.isEscEvent(_evt, onMessageClick);
+  };
+
+  var onSuccessUpload = function () {
+
+    onClickButtonReset();
+
     clearValue(adFormInputs); // очищаю заполненные input
     adForm.querySelector('#description').value = ''; // очищаю поле описания
 
     mapActive.classList.add('map--faded'); // блокирую блок карты
     adForm.classList.add('ad-form--disabled'); // блокирую поля формы объявлений
-    addAttributs(window.form.mapFiltersSelection); // блокирую select формы фильтров
-    addAttributs(window.form.adFormFields); // блокирую fieldset формы объявлений
+    addAttributes(window.form.mapFiltersSelection); // блокирую select формы фильтров
+    addAttributes(window.form.adFormFields); // блокирую fieldset формы объявлений
     window.form.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокирую fieldset в форме фильтров
 
     document.body.querySelector('main').appendChild(successMessage); // показываю объявление
@@ -163,5 +190,7 @@
     evt.preventDefault();
     window.backend.save(new FormData(adForm), onSuccessUpload, window.pin.onErrorLoad);
   });
+
+  adForm.addEventListener('reset', onClickButtonReset); // обработчик reset формы
 
 })();

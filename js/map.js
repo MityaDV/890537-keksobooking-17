@@ -3,6 +3,7 @@
 (function () {
 
   var MARK_POINTER_HEIGHT = 18;
+  var MARK_POINTER_WIDTH = 2 + 0.5;
 
   var mapActive = document.querySelector('.map'); // находим блок карты
   var similarMapPin = document.querySelector('.map__pins'); // находим блок для вставки меток
@@ -64,7 +65,7 @@
       mapPinButtonMain.style.left = (posPin.x - shift.x) + 'px'; // записываю новые координаты метки
       mapPinButtonMain.style.top = (posPin.y - shift.y) + 'px';
       // координата острого конца указателя по x
-      var coordPinX = (posPin.x + (mapPinButtonMain.offsetWidth / 2));
+      var coordPinX = (posPin.x + (mapPinButtonMain.offsetWidth / MARK_POINTER_WIDTH));
       // координата острого конца указателя по y
       var coordPinY = (posPin.y + mapPinButtonMain.offsetHeight + MARK_POINTER_HEIGHT);
 
@@ -72,8 +73,8 @@
       addressInput.removeAttribute('placeholder');
       addressInput.value = coordPinX + ',' + coordPinY;
 
-      window.form.removeAttributsElem(window.form.mapFiltersSelection); // разблокировали все поля
-      window.form.removeAttributsElem(window.form.adFormFields); //  разблокировали все поля
+      window.form.removeAttributesElem(window.form.mapFiltersSelection); // разблокировали все поля
+      window.form.removeAttributesElem(window.form.adFormFields); //  разблокировали все поля
       window.form.mapFilterFieldsetElem.removeAttribute('disabled'); //  разблокировали поле
       mapActive.classList.remove('map--faded'); // показываем блок карты
       adForm.classList.remove('ad-form--disabled'); // показываем поля формы объявлений
