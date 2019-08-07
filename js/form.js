@@ -157,6 +157,12 @@
     Array.from(uploadPhoto).forEach(function (photo) {
       window.upload.photoContainer.removeChild(photo);
     });
+
+    mapActive.classList.add('map--faded'); // блокирую блок карты
+    adForm.classList.add('ad-form--disabled'); // блокирую поля формы объявлений
+    addAttributes(window.form.mapFiltersSelection); // блокирую select формы фильтров
+    addAttributes(window.form.adFormFields); // блокирую fieldset формы объявлений
+    window.form.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокирую fieldset в форме фильтров
   };
 
   var onMessageClick = function () { // ф-я при клике по пустой области
@@ -171,14 +177,8 @@
 
     onClickButtonReset();
 
-    clearValue(adFormInputs); // очищаю заполненные input
-    adForm.querySelector('#description').value = ''; // очищаю поле описания
-
-    mapActive.classList.add('map--faded'); // блокирую блок карты
-    adForm.classList.add('ad-form--disabled'); // блокирую поля формы объявлений
-    addAttributes(window.form.mapFiltersSelection); // блокирую select формы фильтров
-    addAttributes(window.form.adFormFields); // блокирую fieldset формы объявлений
-    window.form.mapFilterFieldsetElem.setAttribute('disabled', ''); // блокирую fieldset в форме фильтров
+    clearValue(adFormInputs); // очищаю заполненные input при удачной отправке
+    adForm.querySelector('#description').value = ''; // очищаю поле описания при удачной отправке
 
     document.body.querySelector('main').appendChild(successMessage); // показываю объявление
 
