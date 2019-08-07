@@ -102,6 +102,7 @@
 
   adFormSelectRoomNumber.addEventListener('change', onRoomChange);
 
+
   // код задания по отправке формы
   var successMessage = document.querySelector('#success') // находим шаблон успешного создания объявления
     .content
@@ -113,15 +114,7 @@
     });
   };
 
-  var onMessageClick = function () { // ф-я при клике по пустой области
-    successMessage.setAttribute('hidden', '');
-  };
-
-  var onMessageEscPress = function (_evt) { // ф-я закрытия сообщения об отправке по нажатию esc
-    window.utils.isEscEvent(_evt, onMessageClick);
-  };
-
-  var onSuccessUpload = function () {
+  var onClickButtonReset = function () { // ф-я reset формы
     var clearPins = Array.from(similarMapPin.querySelectorAll('.map__pin')); // находим метки отрисованные
 
     clearPins.forEach(function (elem, index) { // удаляю отрисованные метки
@@ -144,6 +137,32 @@
       mapActive.removeChild(mapCard); // если карточка есть удаляю её
     }
 
+    window.form.mapFiltersSelection.forEach(function (option) { // сброс значений полей фильтров на карте
+      if (option.value !== 'any') {
+        option.value = 'any';
+      }
+    });
+
+    var featuresInputs = window.form.mapFilterFieldsetElem.querySelectorAll('input'); // сброс выбранных чекбоксов
+    featuresInputs.forEach(function (input) {
+      if (input.checked === true) {
+        input.checked = false;
+      }
+    });
+  };
+
+  var onMessageClick = function () { // ф-я при клике по пустой области
+    successMessage.setAttribute('hidden', '');
+  };
+
+  var onMessageEscPress = function (_evt) { // ф-я закрытия сообщения об отправке по нажатию esc
+    window.utils.isEscEvent(_evt, onMessageClick);
+  };
+
+  var onSuccessUpload = function () {
+
+    onClickButtonReset();
+
     clearValue(adFormInputs); // очищаю заполненные input
     adForm.querySelector('#description').value = ''; // очищаю поле описания
 
@@ -163,5 +182,7 @@
     evt.preventDefault();
     window.backend.save(new FormData(adForm), onSuccessUpload, window.pin.onErrorLoad);
   });
+
+  adForm.addEventListener('reset', onClickButtonReset); // обработчик reset формы
 
 })();
